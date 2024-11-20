@@ -1,0 +1,34 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main  # Uruchamiaj workflow przy zmianach w gałęzi main
+  pull_request:
+    branches:
+      - main  # Uruchamiaj workflow dla pull requestów do main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Krok 1: Pobranie kodu z repozytorium
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Krok 2: Logowanie do Docker Hub
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    # Krok 3: Budowanie obrazu Docker
+    - name: Build Docker Image
+      run: docker build -t michalz1937/jupyterhub:latest .
+
+    # Krok 4: Wypchnięcie obrazu na Docker Hub
+    - name: Push Docker Image
+      run: docker push michalz1937/jupyterhub:latest
+
