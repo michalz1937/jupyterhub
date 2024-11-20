@@ -5,17 +5,12 @@ FROM jupyterhub/k8s-hub:4.0.0
 USER root
 
 # Instalacja Pythona 3.6 i niezbędnych narzędzi
-RUN apt-get update && apt-get install -y \
-    wget \
-    software-properties-common \
-    libkrb5-dev \
-    && wget http://security.debian.org/debian-security/pool/updates/main/p/python3.6/python3.6_3.6.15-8_amd64.deb \
-    && wget http://security.debian.org/debian-security/pool/updates/main/p/python3.6/python3.6-venv_3.6.15-8_amd64.deb \
-    && wget http://security.debian.org/debian-security/pool/updates/main/p/python3.6/python3.6-dev_3.6.15-8_amd64.deb \
-    && dpkg -i python3.6_3.6.15-8_amd64.deb \
-              python3.6-venv_3.6.15-8_amd64.deb \
-              python3.6-dev_3.6.15-8_amd64.deb \
+RUN apt-get update && apt-get install -y software-properties-common gpg \
+    && echo "deb http://ppa.launchpad.net/deadsnakes/ppa/ubuntu focal main" > /etc/apt/sources.list.d/deadsnakes-ppa.list \
+    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BA6932366A755776 \
+    && apt-get update && apt-get install -y python3.6 python3.6-venv python3.6-dev python3-pip libkrb5-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
 # Ustawienie Pythona 3.6 jako domyślnego
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1 \
     && update-alternatives --set python3 /usr/bin/python3.6
