@@ -20,26 +20,31 @@ USER root
 #RUN /opt/venv/bin/python --version && \
 #    /opt/venv/bin/python -c "import pyspark; print(pyspark.__version__)"
 
-# Instalacja OpenJDK 11
-RUN apt-get update && apt-get install -y openjdk-11-jdk curl && \
-    curl -o /tmp/spark.tgz https://archive.apache.org/dist/spark/spark-2.3.2/spark-2.3.2-bin-hadoop2.7.tgz && \
+# Pobranie i instalacja JDK 8
+RUN curl -o /tmp/jdk8.tar.gz https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u292-b10/OpenJDK8U-jdk_x64_linux_hotspot_8u292b10.tar.gz && \
+    mkdir -p /usr/lib/jvm && \
+    tar -xzf /tmp/jdk8.tar.gz -C /usr/lib/jvm && \
+    ln -s /usr/lib/jvm/jdk8u292-b10 /usr/lib/jvm/java-8-openjdk-amd64 && \
+    rm /tmp/jdk8.tar.gz
+
+# Instalacja Spark 2.3.2
+RUN curl -o /tmp/spark.tgz https://archive.apache.org/dist/spark/spark-2.3.2/spark-2.3.2-bin-hadoop2.7.tgz && \
     tar -xzf /tmp/spark.tgz -C /opt && \
     ln -s /opt/spark-2.3.2-bin-hadoop2.7 /opt/spark && \
     rm /tmp/spark.tgz
 
-ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ENV SPARK_HOME=/opt/spark
 ENV PATH=$SPARK_HOME/bin:$PATH
 
 # Instalacja PySpark i klienta HDFS
 #RUN pip install pyspark==2.3.2 hdfs==2.5.8
-
 # Instalacja PySpark i klienta HDFS kompatybilnego z Hadooop 2.7
 #RUN pip install pyspark==2.3.2 hdfs==2.5.8
-
+RUN /opt/venv/bin/python -m pip install hdfs==2.5.8
 # Kopia plików konfiguracyjnych Spark
 #COPY spark-defaults.conf $SPARK_HOME/conf/
 #COPY hdfs-site.xml /etc/hadoop/
 #COPY core-site.xml /etc/hadoop/
 
-#USER jovyan
+USER jovyan
