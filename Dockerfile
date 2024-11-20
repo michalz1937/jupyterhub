@@ -41,8 +41,8 @@ RUN wget https://www.python.org/ftp/python/3.7.9/Python-3.7.9.tgz && \
 # Ustaw Python 3.7 jako domyślny dla python3
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.7 1
 
-# Zainstaluj pip dla Pythona 3.7
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+# Zainstaluj pip dla Pythona 3.7 (z dedykowanego linku)
+RUN curl https://bootstrap.pypa.io/pip/3.7/get-pip.py -o get-pip.py && \
     python3.7 get-pip.py
 
 # Zainstaluj pip dla Pythona 3.7, aby można było instalować pakiety
