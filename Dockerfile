@@ -21,10 +21,10 @@ USER root
 #    /opt/venv/bin/python -c "import pyspark; print(pyspark.__version__)"
 
 # Pobranie i instalacja JDK 8
-RUN curl -o /tmp/jdk8.tar.gz https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u292-b10/OpenJDK8U-jdk_x64_linux_hotspot_8u292b10.tar.gz && \
+RUN curl -L -o /tmp/jdk8.tar.gz https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u372-b07/OpenJDK8U-jdk_x64_linux_hotspot_8u372b07.tar.gz && \
     mkdir -p /usr/lib/jvm && \
     tar -xzf /tmp/jdk8.tar.gz -C /usr/lib/jvm && \
-    ln -s /usr/lib/jvm/jdk8u292-b10 /usr/lib/jvm/java-8-openjdk-amd64 && \
+    ln -s /usr/lib/jvm/jdk8u372-b07 /usr/lib/jvm/java-8-openjdk-amd64 && \
     rm /tmp/jdk8.tar.gz
 
 # Instalacja Spark 2.3.2
