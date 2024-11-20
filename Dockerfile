@@ -20,19 +20,22 @@ USER root
 #RUN /opt/venv/bin/python --version && \
 #    /opt/venv/bin/python -c "import pyspark; print(pyspark.__version__)"
 
-# Instalacja Javy i Spark
-RUN apt-get update && apt-get install -y openjdk-8-jdk curl && \
+# Instalacja OpenJDK 11
+RUN apt-get update && apt-get install -y openjdk-11-jdk curl && \
     curl -o /tmp/spark.tgz https://archive.apache.org/dist/spark/spark-2.3.2/spark-2.3.2-bin-hadoop2.7.tgz && \
     tar -xzf /tmp/spark.tgz -C /opt && \
     ln -s /opt/spark-2.3.2-bin-hadoop2.7 /opt/spark && \
     rm /tmp/spark.tgz
 
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 ENV SPARK_HOME=/opt/spark
 ENV PATH=$SPARK_HOME/bin:$PATH
 
+# Instalacja PySpark i klienta HDFS
+#RUN pip install pyspark==2.3.2 hdfs==2.5.8
+
 # Instalacja PySpark i klienta HDFS kompatybilnego z Hadooop 2.7
-RUN pip install pyspark==2.3.2 hdfs==2.5.8
+#RUN pip install pyspark==2.3.2 hdfs==2.5.8
 
 # Kopia plików konfiguracyjnych Spark
 #COPY spark-defaults.conf $SPARK_HOME/conf/
