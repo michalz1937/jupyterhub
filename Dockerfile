@@ -1,5 +1,5 @@
 # Bazowy obraz z JupyterHub
-FROM jupyterhub/k8s-hub:latest
+FROM jupyterhub/k8s-hub:4.0.0
 
 # Przełącz na użytkownika root
 USER root
