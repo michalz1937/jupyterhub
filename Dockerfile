@@ -7,7 +7,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 # Instalacja Pythona 3.6
 RUN apt-get update && \
-    apt-get install -y python3.6 python3.6-dev python3-pip && \
+    apt-get install -y python3.6 python3-pip && \
     python3.6 -m pip install --upgrade pip
 
 # Instalacja PySpark 2.3.2
