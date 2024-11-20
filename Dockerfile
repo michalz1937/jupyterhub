@@ -1,5 +1,7 @@
 FROM quay.io/jupyterhub/k8s-singleuser-sample:4.0.0
 
+USER root
+
 # Ustawienie zmiennej środowiskowej dla debiana, aby działał bez interakcji
 ARG DEBIAN_FRONTEND=noninteractive
 
