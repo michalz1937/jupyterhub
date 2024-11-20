@@ -6,16 +6,16 @@ USER root
 
 # Instalacja Pythona 3.6 i niezbędnych narzędzi
 RUN apt-get update && apt-get install -y \
+    wget \
     software-properties-common \
-    && add-apt-repository ppa:deadsnakes/ppa -y \
-    && apt-get update && apt-get install -y \
-    python3.6 \
-    python3.6-venv \
-    python3.6-dev \
-    python3-pip \
     libkrb5-dev \
+    && wget http://security.debian.org/debian-security/pool/updates/main/p/python3.6/python3.6_3.6.15-8_amd64.deb \
+    && wget http://security.debian.org/debian-security/pool/updates/main/p/python3.6/python3.6-venv_3.6.15-8_amd64.deb \
+    && wget http://security.debian.org/debian-security/pool/updates/main/p/python3.6/python3.6-dev_3.6.15-8_amd64.deb \
+    && dpkg -i python3.6_3.6.15-8_amd64.deb \
+              python3.6-venv_3.6.15-8_amd64.deb \
+              python3.6-dev_3.6.15-8_amd64.deb \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
-
 # Ustawienie Pythona 3.6 jako domyślnego
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1 \
     && update-alternatives --set python3 /usr/bin/python3.6
