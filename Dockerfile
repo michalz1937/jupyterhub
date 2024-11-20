@@ -4,18 +4,19 @@ USER root
 # Ustaw zmienne środowiskowe, aby zapobiec interaktywnym zapytaniom
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Zaktualizuj system i zainstaluj wymagane pakiety, w tym 'software-properties-common'
+# Zaktualizuj system i zainstaluj wymagane pakiety, w tym curl i gnupg
 RUN apt update && \
     apt install -y \
-    software-properties-common \
     curl \
     lsb-release \
     gnupg2 \
-    ca-certificates
+    ca-certificates \
+    software-properties-common
 
-# Dodaj repozytorium deadsnakes, aby zainstalować Pythona 3.7
-RUN add-apt-repository ppa:deadsnakes/ppa && \
-    apt update
+# Dodaj repozytorium deadsnakes i zaktualizuj pakiety
+RUN curl -fsSL https://packages.sury.org/php/apt.gpg | tee /etc/apt/trusted.gpg.d/deadsnakes.asc
+RUN echo "deb http://ppa.launchpad.net/deadsnakes/ppa/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/deadsnakes-ubuntu-ppa.list
+RUN apt update
 
 # Zainstaluj Pythona 3.7 oraz inne przydatne narzędzia (np. pip)
 RUN apt install -y python3.7 python3.7-distutils python3.7-dev
@@ -32,3 +33,4 @@ RUN python3 -m pip install --upgrade pip
 
 # Sprawdź zainstalowaną wersję Pythona i pip
 RUN python3 --version && python3 -m pip --version
+
