@@ -26,9 +26,9 @@ jobs:
 
     # Krok 3: Budowanie obrazu Docker
     - name: Build Docker Image
-      run: docker build -t michalz1937/jupyterhub:latest .
+      run: docker build -t juphubpyspark/jupyterhub:latest .
 
     # Krok 4: Wypchnięcie obrazu na Docker Hub
     - name: Push Docker Image
-      run: docker push michalz1937/jupyterhub:latest
+      run: docker push juphubpyspark/jupyterhub:latest
 
